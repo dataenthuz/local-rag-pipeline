@@ -8,14 +8,14 @@ Didn't want my docs going to OpenAI. This uses Ollama to run the LLM on-device, 
 
 ## How it works
 
-1. Drop PDFs or text files into the `docs/` folder
-2. The ingestion script chunks them, embeds them with a local embedding model, and stores them in a ChromaDB vector store
-3. Ask questions in the CLI or the simple Gradio UI
+1. Drop PDFs, markdown, or text files into the `docs/` folder
+2. Run the ingestion script - it chunks them, embeds with a local embedding model, and stores in ChromaDB
+3. Ask questions via the CLI (`rag.py`) or the Gradio UI (`rag_app.py`)
 4. Retrieves the top-k relevant chunks and feeds them into the LLM as context
 
 ## Models used
 
-- LLM: `llama3` via Ollama (swappable)
+- LLM: `llama3` via Ollama (swappable for any Ollama model)
 - Embeddings: `nomic-embed-text` via Ollama
 
 ## Setup
@@ -28,22 +28,25 @@ ollama pull nomic-embed-text
 pip install -r requirements.txt
 
 # ingest your docs
-python ingest.py --docs_path ./docs
+python ingest.py --docs_dir ./docs
 
-# run the app
-python app.py
+# run the CLI
+python rag.py
+
+# or run the Gradio UI
+python rag_app.py
 ```
 
 ## Files
 
 ```
-docs/           # drop your PDFs and text files here
-ingest.py       # chunks, embeds, and indexes documents
-app.py          # Gradio UI for asking questions
-retriever.py    # vector store query logic
+docs/            # drop your PDFs, .md, and .txt files here
+ingest.py        # chunks, embeds, and indexes documents into ChromaDB
+rag.py           # interactive CLI for asking questions
+rag_app.py       # Gradio web UI
 requirements.txt
 ```
 
 ## Stack
 
-Python · LangChain · Ollama · ChromaDB · Gradio
+Python - LangChain - Ollama - ChromaDB - Gradio
